@@ -1,10 +1,5 @@
-import { Button } from "../ui/Button";
+import { TimeA } from "../features/TimeA";
 
 export default function App() {
-  return (
-    <div>
-      <h1>Time-a</h1>
-      <Button />
-    </div>
-  );
+  return <TimeA />;
 }
