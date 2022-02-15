@@ -2,15 +2,16 @@ import { Input } from "@chakra-ui/react";
 import { Suspense, useCallback, useEffect, useState } from "react";
 import { Center, Heading, VStack } from "../ui/Chakra";
 import { useRouter } from "next/router";
+import { NextPage } from "next";
 
-export const TimeA = () => {
+export const TimeA: NextPage = () => {
   return (
     <Center h={"100vh"}>
       <VStack spacing={12}>
         <Heading>Time-a</Heading>
-        {/* <Suspense fallback={<Loading />}> */}
-        <RenderAsFetch />
-        {/* </Suspense> */}
+        <Suspense fallback={<Loading />}>
+          <RenderAsFetch />
+        </Suspense>
       </VStack>
     </Center>
   );
