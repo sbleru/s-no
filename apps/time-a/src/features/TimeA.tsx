@@ -1,8 +1,9 @@
 import { Input } from "@chakra-ui/react";
-import { Suspense, useCallback, useEffect, useState } from "react";
+import { Suspense, useCallback, useState } from "react";
 import { Center, Heading, VStack } from "../ui/Chakra";
 import { useRouter } from "next/router";
 import { NextPage } from "next";
+import { useSWR } from "../contexts/swr";
 
 export const TimeA: NextPage = () => {
   return (
@@ -17,37 +18,8 @@ export const TimeA: NextPage = () => {
   );
 };
 
-/**
- * @todo fix https://nextjs.org/docs/messages/react-hydration-error
- */
 const RenderAsFetch = () => {
-  const {
-    query: {
-      // timestamp
-      t,
-      // timestamp millis
-      m,
-    },
-    isReady,
-  } = useRouter();
-
-  const [timestamp, setTimestamp] = useState(null);
-
-  useEffect(() => {
-    if (!isReady) return;
-    if (t) {
-      setTimestamp(Math.floor(Number(t)));
-      return;
-    }
-    if (m) {
-      setTimestamp(Math.floor(Number(m) / 1000));
-      return;
-    }
-    setTimestamp(Math.floor(new Date().getTime() / 1000));
-  }, [t, m, isReady]);
-
-  if (!timestamp) return <Loading />;
-
+  const { timestamp } = useTimestamp();
   return <View timestamp={timestamp} />;
 };
 
@@ -70,4 +42,34 @@ const View: React.FC<{
 
 const Loading = () => {
   return <Heading>Loading...</Heading>;
+};
+
+const useTimestamp = (): {
+  timestamp: number;
+  error: unknown;
+} => {
+  const {
+    query: {
+      // timestamp
+      t,
+      // timestamp millis
+      m,
+    },
+  } = useRouter();
+
+  const { data, error } = useSWR("timestamp", () => {
+    return {
+      timestamp:
+        t && !isNaN(Number(t))
+          ? Math.floor(Number(t))
+          : m && !isNaN(Number(m))
+          ? Math.floor(Number(m) / 1000)
+          : Math.floor(new Date().getTime() / 1000),
+    };
+  });
+
+  return {
+    timestamp: data.timestamp,
+    error,
+  };
 };

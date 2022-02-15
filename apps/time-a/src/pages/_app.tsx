@@ -1,12 +1,16 @@
 import { ChakraProvider } from "@chakra-ui/react";
+import { SWRContextProvider } from "../contexts/swr";
 import { theme } from "../ui/theme";
+import type { AppProps } from "next/app";
 
-function App({ Component, pageProps }) {
+const App: React.VFC<AppProps> = ({ Component, pageProps }) => {
   return (
     <ChakraProvider theme={theme}>
-      <Component {...pageProps} />
+      <SWRContextProvider>
+        <Component {...pageProps} />
+      </SWRContextProvider>
     </ChakraProvider>
   );
-}
+};
 
 export default App;
