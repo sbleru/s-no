@@ -1,14 +1,13 @@
 import { Input } from "@chakra-ui/react";
 import { Suspense, useCallback, useState } from "react";
 import { Center, Heading, VStack } from "../ui/Chakra";
-import { useRouter } from "next/router";
 import { NextPage } from "next";
-import { useSWR } from "../contexts/swr";
+import { useTimestamp } from "./useTimestamp";
 
 export const TimeA: NextPage = () => {
   return (
     <Center h={"100vh"}>
-      <VStack spacing={12} w={["90%", "30%"]}>
+      <VStack spacing={12} w={["90%", "20%"]}>
         <Heading>Time-a</Heading>
         <Suspense fallback={<Loading />}>
           <RenderAsFetch />
@@ -42,34 +41,4 @@ const View: React.FC<{
 
 const Loading = () => {
   return <Heading>Loading...</Heading>;
-};
-
-const useTimestamp = (): {
-  timestamp: number;
-  error: unknown;
-} => {
-  const {
-    query: {
-      // timestamp
-      t,
-      // timestamp millis
-      m,
-    },
-  } = useRouter();
-
-  const { data, error } = useSWR("timestamp", () => {
-    return {
-      timestamp:
-        t && !isNaN(Number(t))
-          ? Math.floor(Number(t))
-          : m && !isNaN(Number(m))
-          ? Math.floor(Number(m) / 1000)
-          : Math.floor(new Date().getTime() / 1000),
-    };
-  });
-
-  return {
-    timestamp: data.timestamp,
-    error,
-  };
 };
