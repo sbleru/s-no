@@ -8,7 +8,7 @@ import { useSWR } from "../contexts/swr";
 export const TimeA: NextPage = () => {
   return (
     <Center h={"100vh"}>
-      <VStack spacing={12}>
+      <VStack spacing={12} w={["90%", "30%"]}>
         <Heading>Time-a</Heading>
         <Suspense fallback={<Loading />}>
           <RenderAsFetch />
@@ -34,8 +34,8 @@ const View: React.FC<{
   }, []);
   return (
     <>
-      <Input defaultValue={timestamp} onChange={handleInput} />
       <Heading>{date.toLocaleString()}</Heading>
+      <Input defaultValue={timestamp} onChange={handleInput} />
     </>
   );
 };
