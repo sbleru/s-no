@@ -25,3 +25,5 @@ export const HStack = Chakra.HStack;
 export const VStack = Chakra.VStack;
 
 export const Text = Chakra.Text;
+
+export const Input = Chakra.Input;

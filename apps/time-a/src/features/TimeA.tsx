@@ -1,14 +1,13 @@
-import { Input } from "@chakra-ui/react";
 import { Suspense, useCallback, useState } from "react";
-import { Center, Heading, VStack } from "../ui/Chakra";
+import { Center, Heading, VStack, Input } from "../ui/Chakra";
 import { NextPage } from "next";
 import { useTimestamp } from "./useTimestamp";
 
 export const TimeA: NextPage = () => {
   return (
     <Center h={"100vh"}>
-      <VStack spacing={12} w={["90%", "20%"]}>
-        <Heading>Time-a</Heading>
+      <VStack spacing={12} w={["90%", "30%"]}>
+        <Heading size={"4xl"}>Time-a</Heading>
         <Suspense fallback={<Loading />}>
           <RenderAsFetch />
         </Suspense>
@@ -32,10 +31,10 @@ const View: React.FC<{
     setDate(new Date(t * 1000));
   }, []);
   return (
-    <>
+    <VStack spacing={8}>
       <Heading>{date.toLocaleString()}</Heading>
-      <Input defaultValue={timestamp} onChange={handleInput} />
-    </>
+      <Input defaultValue={timestamp} onChange={handleInput} autoFocus={true} />
+    </VStack>
   );
 };
 
