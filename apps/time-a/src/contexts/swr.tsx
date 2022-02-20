@@ -11,12 +11,14 @@ import useSWRClient, {
   KeyedMutator,
 } from "swr";
 
-export const SWRContextProvider: React.FC = ({ children }) => {
+export const SWRContextProvider: React.FC<{
+  value?: Partial<Parameters<typeof SWRConfig>[0]>["value"];
+}> = ({ children, value }) => {
   /**
    * Enable suspense by default.
    * @see https://swr.vercel.app/docs/suspense
    */
-  return <SWRConfig value={{ suspense: true }}>{children}</SWRConfig>;
+  return <SWRConfig value={{ suspense: true, ...value }}>{children}</SWRConfig>;
 };
 
 /**

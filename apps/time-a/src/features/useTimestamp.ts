@@ -1,10 +1,8 @@
 import { useRouter } from "next/router";
-import { useSWR } from "../contexts/swr";
 import { useTime } from "../contexts/time";
 
 export const useTimestamp = (): {
   timestamp: number;
-  // error: unknown;
   // renderView: () => JSX.Element;
 } => {
   const {
@@ -16,17 +14,6 @@ export const useTimestamp = (): {
     },
   } = useRouter();
   const { now } = useTime();
-
-  // const { data, error } = useSWR("timestamp", () => {
-  //   return {
-  //     timestamp:
-  //       t && !isNaN(Number(t))
-  //         ? Math.floor(Number(t))
-  //         : m && !isNaN(Number(m))
-  //         ? Math.floor(Number(m) / 1000)
-  //         : Math.floor(new Date().getTime() / 1000),
-  //   };
-  // });
 
   // Suspenseが使えないならこれ正直あり
   // https://engineering.linecorp.com/ja/blog/line-securities-frontend-3/
@@ -41,8 +28,6 @@ export const useTimestamp = (): {
         : m && !isNaN(Number(m))
         ? Math.floor(Number(m) / 1000)
         : Math.floor(now.getTime() / 1000),
-    // timestamp: data.timestamp,
-    // error,
     // renderView,
   };
 };
