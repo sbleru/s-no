@@ -12,6 +12,7 @@ import {
 import { RouterContext } from "next/dist/shared/lib/router-context";
 import { NextRouter } from "next/router";
 import React from "react";
+import { TimeContextProvider } from "../src/contexts/time";
 
 /**
  * WIP swr
@@ -66,17 +67,19 @@ export const renderHook = <TProps, TResult>(
     wrapper,
     router,
     dehydratedState,
+    time,
     ...options
   }: DefaultRenderHookOptions<TProps> & {
     router?: Partial<NextRouter>;
     dehydratedState?: unknown;
+    time?: Parameters<typeof TimeContextProvider>[0];
   } = {}
 ) => {
   if (!wrapper) {
     // eslint-disable-next-line react/display-name
     wrapper = ({ children }) => (
       <RouterContext.Provider value={{ ...mockRouter, ...router }}>
-        {children}
+        <TimeContextProvider {...time}>{children}</TimeContextProvider>
       </RouterContext.Provider>
     );
   }

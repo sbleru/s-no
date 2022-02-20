@@ -1,5 +1,6 @@
 import { useRouter } from "next/router";
-// import { useSWR } from "../contexts/swr";
+import { useSWR } from "../contexts/swr";
+import { useTime } from "../contexts/time";
 
 export const useTimestamp = (): {
   timestamp: number;
@@ -14,6 +15,7 @@ export const useTimestamp = (): {
       m,
     },
   } = useRouter();
+  const { now } = useTime();
 
   // const { data, error } = useSWR("timestamp", () => {
   //   return {
@@ -38,7 +40,8 @@ export const useTimestamp = (): {
         ? Math.floor(Number(t))
         : m && !isNaN(Number(m))
         ? Math.floor(Number(m) / 1000)
-        : Math.floor(new Date().getTime() / 1000),
+        : Math.floor(now.getTime() / 1000),
+    // timestamp: data.timestamp,
     // error,
     // renderView,
   };
