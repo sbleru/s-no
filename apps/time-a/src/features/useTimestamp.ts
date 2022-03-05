@@ -9,8 +9,6 @@ export const useTimestamp = (): {
     query: {
       // timestamp
       t,
-      // timestamp millis
-      m,
     },
   } = useRouter();
   const { now } = useTime();
@@ -22,12 +20,36 @@ export const useTimestamp = (): {
   // }, [data]);
 
   return {
-    timestamp:
-      t && !isNaN(Number(t))
-        ? Math.floor(Number(t))
-        : m && !isNaN(Number(m))
-        ? Math.floor(Number(m) / 1000)
-        : Math.floor(now.getTime() / 1000),
+    timestamp: translateTimestamp({
+      t: t as string,
+      nowMillis: now.getTime(),
+    }),
     // renderView,
   };
+};
+
+/**
+ * Return translated timestamp
+ */
+export const translateTimestamp = ({
+  t,
+  nowMillis,
+}: {
+  t?: string;
+  nowMillis: number;
+}): number => {
+  //
+  const baseDigitCount = 10;
+  if (!t || isNaN(Number(t)) || t.length < baseDigitCount) {
+    return Math.floor(nowMillis / 1000);
+  }
+  const floorDigitCount = t.length - baseDigitCount;
+  const divideNumber = (() => {
+    let c = "1";
+    for (let i = 0; i < floorDigitCount; i++) {
+      c = c.concat("0");
+    }
+    return Number(c);
+  })();
+  return Math.floor(Number(t) / divideNumber);
 };
