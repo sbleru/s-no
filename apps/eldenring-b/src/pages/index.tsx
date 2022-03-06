@@ -1,9 +1,9 @@
 import { NextPage } from "next";
 import { useRouter } from "next/router";
-import { TimeA } from "../features/TimeA";
+import { Home } from "../features/Home";
 
 export default function App() {
-  return CSR(TimeA);
+  return CSR(Home);
 }
 
 const CSR: React.FC<NextPage> = (Component) => {

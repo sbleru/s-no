@@ -1,16 +1,25 @@
 import { extendTheme, ChakraTheme } from "@chakra-ui/react";
 
-const colors: ChakraTheme["colors"] = {
-  brand: {
-    900: "#1a365d",
-    800: "#153e75",
-    700: "#2a69ac",
+const styles: ChakraTheme["styles"] = {
+  global: {
+    "html, body": {
+      backgroundColor: "#0b0a0a",
+      color: "white",
+      // fontFamily: 'Hina Mincho, sans-serif',
+      // foPntStyle: "normal"
+
+      //       font-family: dnp-shuei-mincho-pr6n, sans-serif;
+      // font-style: normal;
+      // font-weight: 400;
+    },
   },
 };
 
-const config: ChakraTheme["config"] = {
-  initialColorMode: "dark",
-  useSystemColorMode: false,
+const fonts = {
+  heading: "Hina Mincho, sans-serif",
+  body: "Hina Mincho, sans-serif",
 };
 
-export const theme = extendTheme({ colors, config }) as ChakraTheme;
+// .tk-fot-rodin-pron{font-family:"fot-rodin-pron",sans-serif;}.tk-dnp-shuei-mincho-pr6n{font-family:"dnp-shuei-mincho-pr6n",sans-serif;}
+
+export const theme = extendTheme({ styles, fonts }) as ChakraTheme;
