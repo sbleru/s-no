@@ -1,13 +1,29 @@
 import { Suspense, useCallback, useState } from "react";
-import { Center, Heading, VStack, Input } from "../ui/Chakra";
+import { Center, Heading, VStack, Input, Container } from "../ui/Chakra";
 import { NextPage } from "next";
 import { useTimestamp } from "./useTimestamp";
 
 export const TimeA: NextPage = () => {
   return (
     <Center h={"100vh"}>
-      <VStack spacing={12} w={["90%", "30%"]}>
-        <Heading size={"4xl"}>Time-a</Heading>
+      <Container
+        position={"absolute"}
+        display={"block"}
+        zIndex={0}
+        minH={["100%", "inherit"]}
+        minW={"100%"}
+      >
+        <Heading
+          color={"lightgray"}
+          transform={["rotate(90deg)", "rotate(0deg)"]}
+          opacity={0.04}
+          whiteSpace={"nowrap"}
+          fontSize={["29vh", "29vw"]}
+        >
+          Time-A
+        </Heading>
+      </Container>
+      <VStack zIndex={1} w={["90%", "30%"]}>
         <Suspense fallback={<Loading />}>
           <RenderAsFetch />
         </Suspense>
