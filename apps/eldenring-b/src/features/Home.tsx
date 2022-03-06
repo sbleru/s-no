@@ -1,8 +1,14 @@
 import { Suspense } from "react";
 import { Center, Heading, VStack, Container } from "../ui/Chakra";
 import { NextPage } from "next";
+import { useRouter } from "next/router";
 
 export const Home: NextPage = () => {
+  const { isReady } = useRouter();
+  // isReady === true でCSRになる。
+  if (!isReady) {
+    return null;
+  }
   return (
     <Center h={"100vh"}>
       <Container
