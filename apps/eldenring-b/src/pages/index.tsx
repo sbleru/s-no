@@ -1,5 +1,3 @@
-import { NextPage } from "next";
-import { useRouter } from "next/router";
 import { Home } from "../features/Home";
 import Head from "next/head";
 
