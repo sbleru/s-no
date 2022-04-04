@@ -17,7 +17,7 @@ import { RouterContext } from "next/dist/shared/lib/router-context";
 import { NextRouter } from "next/router";
 import React from "react";
 import { SWRContextProvider } from "../src/contexts/swr";
-import { TimeContextProvider } from "../src/contexts/time";
+import { TimeProvider } from "../src/contexts/time";
 
 const mockRouter: NextRouter = {
   basePath: "",
@@ -54,7 +54,7 @@ export const renderHook = <TProps, TResult>(
   }: DefaultRenderHookOptions<TProps> & {
     router?: Partial<NextRouter>;
     dehydratedState?: unknown;
-    time?: Parameters<typeof TimeContextProvider>[0];
+    time?: Parameters<typeof TimeProvider>[0];
     swr?: Parameters<typeof SWRContextProvider>[0]["value"];
   } = {}
 ) => {
@@ -63,7 +63,7 @@ export const renderHook = <TProps, TResult>(
     wrapper = ({ children }) => (
       <RouterContext.Provider value={{ ...mockRouter, ...router }}>
         <SWRContextProvider value={{ ...swr }}>
-          <TimeContextProvider {...time}>{children}</TimeContextProvider>
+          <TimeProvider {...time}>{children} </TimeProvider>
         </SWRContextProvider>
       </RouterContext.Provider>
     );

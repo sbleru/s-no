@@ -1,64 +1,51 @@
-import {
-  createContext,
-  FC,
-  useCallback,
-  useContext,
-  useEffect,
-  useState,
-} from "react";
+import { useCallback } from "react";
+import { atom, useRecoilState } from "recoil";
+import { RecoilRoot } from "recoil";
+import { RecoilAtomKeys } from "./recoilKeys";
 
-type Time = Readonly<{
-  now: Date;
-  revalidate: () => void;
-}>;
+const timeState = atom({
+  key: RecoilAtomKeys.TIME,
+  default: {
+    now: new Date(),
+  },
+});
 
-const defaultDate: Time = {
-  now: new Date(),
-  revalidate: () => {},
-};
-
-const TimeContext = createContext<
-  Readonly<{
-    time: Time;
-  }>
->({ time: defaultDate });
-
-const useTimeContext = (): { time: Time } => {
-  const context = useContext(TimeContext);
-  if (context === undefined) {
-    throw new Error(`Must be used within a TimeContextProvider`);
+/**
+ * Time provider
+ *
+ * RecoilRootは複数使用できる。作りたいglobal stateごとに使用してもよい。
+ * そのほうがProviderとセットで作成できる（RecoilRoot一つで一元化することもできそう）
+ * @see https://recoiljs.org/docs/api-reference/core/RecoilRoot
+ */
+export const TimeProvider: React.FC<{
+  now?: Date;
+}> = ({ children, now }) => {
+  if (now) {
+    return (
+      <RecoilRoot
+        // initializeStateをテストでDIするために使用。
+        initializeState={({ set }) => {
+          set(timeState, {
+            now,
+          });
+        }}
+      >
+        {children}
+      </RecoilRoot>
+    );
   }
-  return context;
+  return <RecoilRoot>{children}</RecoilRoot>;
 };
 
-export const TimeContextProvider: FC<{
-  /**
-   * For testing
-   */
-  fixedNow?: Date;
-}> = ({ children, fixedNow, ...values }) => {
-  const [now, setNow] = useState(fixedNow ?? new Date());
+export const useTime = () => {
+  const [time, setTime] = useRecoilState(timeState);
   const revalidate = useCallback(() => {
-    setNow(fixedNow ?? new Date());
-  }, [fixedNow]);
-  return (
-    <TimeContext.Provider
-      value={{ time: { ...defaultDate, ...values, now, revalidate } }}
-    >
-      {children}
-    </TimeContext.Provider>
-  );
-};
-
-export const useTime = (): Time => {
-  const {
-    time: { now, revalidate },
-  } = useTimeContext();
-  useEffect(() => {
-    revalidate();
-  }, [revalidate]);
+    setTime({
+      now: new Date(),
+    });
+  }, [setTime]);
   return {
-    now,
+    now: time.now,
     revalidate,
   };
 };
