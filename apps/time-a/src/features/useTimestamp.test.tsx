@@ -6,7 +6,7 @@ describe("useTimestamp", () => {
     const now = new Date();
     const { result } = renderHook(() => useTimestamp(), {
       time: {
-        fixedNow: now,
+        now,
       },
     });
     expect(result.current.timestamp).toBe(Math.floor(now.getTime() / 1000));
