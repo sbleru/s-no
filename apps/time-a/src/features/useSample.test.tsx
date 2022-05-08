@@ -1,4 +1,3 @@
-import { useTimestamp } from "./useTimestamp";
 import { renderHook } from "../../test/render";
 import { useSample } from "./useSample";
 
@@ -8,7 +7,7 @@ describe("useSample", () => {
     const nowTimestamp = now.getTime();
     const { result } = renderHook(() => useSample(), {
       time: {
-        fixedNow: now,
+        now,
       },
       swr: {
         fallback: {
