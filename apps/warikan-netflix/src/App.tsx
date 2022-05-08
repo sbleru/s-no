@@ -1,21 +1,9 @@
-import { useState } from "react";
-import logo from "./logo.svg";
+import logo from "./netflix-seeklogo.com.svg";
 import { Button, Center, Heading, Image, Link, VStack } from "@chakra-ui/react";
-import { keyframes } from "@chakra-ui/react";
-
-const animationKeyframes = keyframes`
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-`;
-
-const animation = `${animationKeyframes} infinite 20s linear`;
 
 function App() {
-  const [count, setCount] = useState(0);
+  const url =
+    "https://us-central1-fir-no-1904e.cloudfunctions.net/subscribeWarikan?priceId=price_1Kx2HUASQM55JB5sGzKGtbE8";
 
   return (
     <Center
@@ -28,44 +16,14 @@ function App() {
       fontSize={"xl"}
       color={"white"}
     >
-      <Image
-        src={logo}
-        alt="logo"
-        h={"40vmin"}
-        pointerEvents={"none"}
-        animation={animation}
-      />
-      <VStack spacing={"2"}>
-        <Heading>Hello Vite + React!</Heading>
+      <VStack spacing={"4"}>
+        <Image src={logo} alt="logo" h={"40vmin"} pointerEvents={"none"} />
+        <Heading>Netflix割り勘</Heading>
+        <Heading>Netflixプレミアム月額1980円 x 6ヶ月 / 3人 = 3960円</Heading>
         <Heading>
-          <Button
-            onClick={() => setCount((count) => count + 1)}
-            color={"black"}
-          >
-            count is: {count}
-          </Button>
-        </Heading>
-        <Heading>
-          Edit <code>App.tsx</code> and save to test HMR updates.
-        </Heading>
-        <Heading>
-          <Link
-            color={"#61dafb"}
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </Link>
-          {" | "}
-          <Link
-            color={"#61dafb"}
-            href="https://vitejs.dev/guide/features.html"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Vite Docs
-          </Link>
+          <LinkArea href={url}>
+            <Button color={"black"}>サブスクで割り勘する</Button>
+          </LinkArea>
         </Heading>
       </VStack>
     </Center>
@@ -73,3 +31,13 @@ function App() {
 }
 
 export default App;
+
+export const LinkArea: React.FC<{
+  href: string;
+  isExternal?: boolean;
+  children: React.ReactNode;
+}> = ({ href, isExternal = false, children }) => (
+  <Link href={href} isExternal={isExternal}>
+    {children}
+  </Link>
+);
